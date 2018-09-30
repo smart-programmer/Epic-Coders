@@ -1,0 +1,79 @@
+{% extends "header.html" %}
+
+{% block content %}
+<nav class="main-nav-outer" id="test">
+                <!--main-nav-start-->
+                <div class="container">
+                    <ul class="main-nav">
+
+							<li><a href="#contact">Contact us</a></li>
+							<li><a href="#">about the project</a></li>
+							<li><a href="{{ url_for('Home') }}">Home</a></li>
+							
+							<li class="small-logo"><a href="#header"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
+
+							<li><a href="#">about the project</a></li>
+							<li><a href="{{ url_for('login') }}">Courses</a></li>
+							
+                      
+                    </ul>
+                    <a class="res-nav_click" href="#"><i class="fa fa-bars"></i></a>
+                </div>
+            </nav>
+  
+            <br /><br />
+
+
+            <center>
+     
+               <h1>{{ course.course_name }}</h1>
+                <br />
+                <img src="{{ image_file }}" alt="">
+                <br /><br /><br /><br /><br /><br /><br /><br />
+                {% for episode in episodes %}
+                    <a href="{{ url_for('episode', course_name='course.course_name', episode_id=episode.id) }}"><h1>{{ episode.episode_name }}</h1></a><br />
+                    <img src="{{ images_file }}/{{ episode.image }}" alt="">
+                    <br /><br />
+                {% endfor %}
+                <br /><br />
+                {% if form %}
+                <form action='' method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    {{ form.episode_name.label() }}
+                    {{ form.episode_name() }}
+                     {% for error in form.episode_name.errors %}
+                        <h1>episode_name {{ error }}</h1>
+                    {% endfor %}
+                    {{ form.picture.label() }}
+                    {{ form.picture() }}
+                     {% for error in form.picture.errors %}
+                        <h1>picture {{ error }}</h1>
+                    {% endfor %}
+                    {{ form.video.label() }}
+                    {{ form.video() }}
+                     {% for error in form.video.errors %}
+                        <h1>video {{ error }}</h1>
+                    {% endfor %}
+                    {{ form.description.label() }}
+                    {{ form.description() }}
+                     {% for error in form.description.errors %}
+                        <h1>description {{ error }}</h1>
+                    {% endfor %}
+                    {{ form.text.label() }}
+                    {{ form.text() }}
+                     {% for error in form.text.errors %}
+                        <h1>text {{ error }}</h1>
+                    {% endfor %}
+                    {{ form.submit() }}
+                     {% for error in form.submit.errors %}
+                        <h1>submit {{ error }}</h1>
+                    {% endfor %}
+
+              </form>
+              <br /><br />
+              {% endif %}
+        </center>
+
+
+{% include 'includes/include_mobile.html' %}
+{% endblock content %}

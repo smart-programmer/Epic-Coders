@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% if not no_bootstrab %}
+    	   {% include "includes/include.html" %}
+        {% endif %}
+        {% if is_registration_form %}
+            {% include "includes/register_include.html" %}
+        {% elif is_login_form %}
+            {% include "includes/login_include.html" %}
+        {% elif is_Home %}
+            {% include "includes/Home_include.html" %}
+        {% elif is_developers_page %}
+        {% include "includes/include_developers.html" %}
+        {% elif is_account %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+        {% include "includes/include_developers.html" %}
+        {% elif is_courses %}
+        {% include "includes/include_courses.html" %}
+        {% elif is_course %}
+        {% include "includes/‏‏include_course.html" %}
+        {% elif is_episode %}
+        {% include "includes/‏‏‏‏include_episode.html" %}
+        {% endif %}
+
+        <title>Epic Coders{% block title %}{% endblock %}</title>
+
+        {% if not without_background %}
+            <style type="text/css">
+    	        body {
+    	   			background-image: url("{{ url_for('static', filename='source-code.png') }}");
+    	   			background-color: #cccccc;
+    				}
+    		</style>
+        {% endif %}
+    </head>
+
+
+    <body>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

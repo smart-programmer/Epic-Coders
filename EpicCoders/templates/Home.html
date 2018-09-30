@@ -1,0 +1,78 @@
+{% extends 'header.html' %}
+
+	<title>{% block title %} | Home{% endblock %}</title>
+
+<!-- <body> -->
+{% block content %}
+	<header class="header" id="header">
+		<!--header-start-->
+		<div class="container">
+			<figure class="logo animated fadeInDown delay-07s">
+				<img src="{{ url_for('static', filename='images/homeimges/logo.png') }}" alt="">
+			</figure>
+			<h1 class="animated fadeInDown delay-07s">Welcome To Epic Coders</h1>
+			<ul class="we-create animated fadeInUp delay-1s">
+				<li>Here You will Learn How To Code, Think and Solve Proplems.</li>
+			</ul>
+			{% if current_user.is_authenticated %}
+				<a class="link animated fadeInUp delay-1s servicelink" href="{{ url_for('courses') }}">Courses</a>
+			{% else %}
+				<a class="link animated fadeInUp delay-1s servicelink" href="{{ url_for('register') }}">Get Started</a>
+			{% endif %}
+		</div>
+	</header>
+	<!--header-end-->
+
+	<nav class="main-nav-outer" id="test">
+		<!--main-nav-start-->
+		<div class="container">
+			<ul class="main-nav">
+				{% if current_user.is_authenticated %}
+				<li><a href="{{ url_for('logout') }}">Logout</a></li>
+				<li><a href="{{ url_for('developers_page') }}">Developers Page</a></li>
+				
+				<li class="small-logo"><a href="#header"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
+
+				<li><a href="{{ url_for('account') }}">my account</a></li>
+				<li><a href="#team">my team</a></li>
+				{% else %}
+					<li><a href="">about the project</a></li>
+					<!-- <li><a href="../ContactFrom/index.html">Contact Us</a></li> -->
+					<li><a href="{{ url_for('developers_page') }}">Developers Page</a></li>
+
+					<li class="small-logo"><a href="#header"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
+
+					<li><a href="{{ url_for('login') }}">Courses</a></li>
+					<li><a href="{{ url_for('login') }}">Login</a></li>
+					<li><a href="{{ url_for('register') }}">SIGN UP</a></li>
+				{% endif %}
+<!-- 				<li><a href="../ContactFrom/index.html">Contact</a></li> -->
+			</ul>
+			<a class="res-nav_click" href="#"><i class="fa fa-bars"></i></a>
+		</div>
+	</nav>
+	<!--main-nav-end-->
+   <main>
+   	<center>
+	{% for article in range(50) %}
+		لم ينشر اي تحدي او مقالة بعد{{ article }}<br />
+	{% endfor %}
+	</center>
+   </main>
+
+
+	</div>
+	<footer class="footer">
+		<div class="container">
+			<div class="footer-logo"><a href="#"><img src="{{ url_for('static', filename='images/homeimges/footer-logo.png') }}" alt=""></a></div>
+			<span class="copyright">&copy; Epic Coder. All Rights Reserved</span>
+	
+		</div>
+	</footer>
+
+{% include 'includes/include_mobile.html' %}
+
+{% endblock %}
+<!-- </body> -->
+
+

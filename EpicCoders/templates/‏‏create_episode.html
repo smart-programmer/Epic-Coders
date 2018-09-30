@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+    <body>
+      <form action='' method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.episode_name.label() }}
+        {{ form.episode_name() }}
+        {{ form.picture.label() }}
+        {{ form.picture() }}
+        {{ form.video.label() }}
+        {{ form.video() }}
+        {{ form.description.label() }}
+        {{ form.description() }}
+        {{ form.submit() }}
+
+      </form>
+    </body>
+</html>

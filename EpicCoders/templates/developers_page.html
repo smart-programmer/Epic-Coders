@@ -1,0 +1,85 @@
+{% extends 'header.html' %}
+
+	<title>{% block title %}Developers Page{% endblock  %}</title>
+
+<!-- <body> -->
+{% block content %}
+               <nav class="main-nav-outer" id="test">
+                <!--main-nav-start-->
+                <div class="container">
+                    <ul class="main-nav">
+
+							<li><a href="#contact">Contact us</a></li>
+							<li><a href="#">about the project</a></li>
+							<li><a href="{{ url_for('Home') }}">Home</a></li>
+							
+							<li class="small-logo"><a href="#header"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
+
+							<li><a href="#">about the project</a></li>
+							<li><a href="{{ url_for('login') }}">Courses</a></li>
+							
+                      
+                    </ul>
+                    <a class="res-nav_click" href="#"><i class="fa fa-bars"></i></a>
+                </div>
+            </nav>
+            <!--main-nav-end-->
+    <section class="main-section team" id="team">
+		<!--main-section team-start-->
+		<div class="container">
+			<h2>team</h2>
+			<h6>Take a closer look into our amazing team. We won’t bite.</h6>
+			<div class="team-leader-block clearfix">
+				<div class="team-leader-box">
+					<div class="team-leader wow fadeInDown delay-03s">
+						<div class="team-leader-shadow"><a href="#"></a></div>
+						<img src="{{ url_for('static', filename='images/Developers/ammar_2.jpg') }}" alt="">
+						<ul>
+							<li><a href="#" class="fa fa-twitter"></a></li>
+							<li><a href="#" class="fa fa-facebook"></a></li>
+							<li><a href="#" class="fa fa-pinterest"></a></li>
+							<li><a href="#" class="fa fa-google-plus"></a></li>
+						</ul>
+					</div>
+					<h3 class="wow fadeInDown delay-03s">Ammar Ali</h3>
+					<span class="wow fadeInDown delay-03s">Chief Executive Officer</span>
+					<p class="wow fadeInDown delay-03s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat sollicitudin cursus. Dolor sit amet, consectetur adipiscing elit proin consequat.</p>
+				</div>
+				<div class="team-leader-box">
+					<div class="team-leader  wow fadeInDown delay-06s">
+						<div class="team-leader-shadow"><a href="#"></a></div>
+						<img src="{{ url_for('static', filename='images/Developers/homsi.jpeg') }}" alt="">
+						<ul>
+							<li><a href="#" class="fa fa-twitter"></a></li>
+							<li><a href="#" class="fa fa-facebook"></a></li>
+							<li><a href="#" class="fa fa-pinterest"></a></li>
+							<li><a href="#" class="fa fa-google-plus"></a></li>
+						</ul>
+					</div>
+					<h3 class="wow fadeInDown delay-06s">Abdullah Homsi</h3>
+					<span class="wow fadeInDown delay-06s">Product Manager</span>
+					<p class="wow fadeInDown delay-06s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat sollicitudin cursus. Dolor sit amet, consectetur adipiscing elit proin consequat.</p>
+				</div>
+				<div class="team-leader-box">
+					<div class="team-leader wow fadeInDown delay-03s">
+						<div class="team-leader-shadow"><a href="#"></a></div>
+						<img src="{{ url_for('static', filename='images/Developers/ahmad.jpeg') }}" alt="">
+						<ul>
+							<li><a href="#" class="fa fa-twitter"></a></li>
+							<li><a href="#" class="fa fa-facebook"></a></li>
+							<li><a href="#" class="fa fa-pinterest"></a></li>
+							<li><a href="#" class="fa fa-google-plus"></a></li>
+						</ul>
+					</div>
+					<h3 class="wow fadeInDown delay-03s">Ahmad Al-Taher</h3>
+					<span class="wow fadeInDown delay-03s">Chief Executive Officer</span>
+					<p class="wow fadeInDown delay-03s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat sollicitudin cursus. Dolor sit amet, consectetur adipiscing elit proin consequat.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+    <!--main-section team-end-->
+    {% include "includes/include_developers_scripts.html" %}
+{% endblock %}
+</body>
+</html>

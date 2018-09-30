@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+    <body>
+      <form action='' method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.course_name.label() }}
+        {{ form.course_name() }}
+        {% for error in form.course_name.errors %}
+          <h1>course_name {{ error }}</h1>
+        {% endfor %}
+        {{ form.image.label() }}
+        {{ form.image() }}
+        {% for error in form.image.errors %}
+          <h1>image {{ error }}</h1>
+        {% endfor %}
+        {{ form.description.label() }}
+        {{ form.description() }}
+        {% for error in form.description.errors %}
+          <h1>description {{ error }}</h1>
+        {% endfor %}
+        {{ form.submit() }}
+        {% for error in form.submit.errors %}
+          <h1>submit {{ error }}</h1>
+        {% endfor %}
+
+      </form>
+    </body>
+</html>

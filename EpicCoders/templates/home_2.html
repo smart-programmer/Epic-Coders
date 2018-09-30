@@ -1,0 +1,14 @@
+{% extends 'header.html' %}
+
+
+{% block content %}
+	<h1>الحمد لله</h1><br>
+    <h1>هذا موقعنا مو موقع مشروع الاستاذ مفهوم صديق؟</h1>
+    <h1>{{ current_user.username }}</h1>
+    <a href="{{ url_for('register') }}"><h1>سجل في الموقع</h1></a>
+    {% if not current_user.is_authenticated %}
+    	<a href="{{ url_for('login') }}"><h1>سجل دخول</h1></a>
+    {% else %}
+    	<a href="{{ url_for('logout') }}"><h1>سجل خروج</h1></a>
+    {% endif %}
+{% endblock %}

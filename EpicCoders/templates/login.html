@@ -1,0 +1,69 @@
+{% extends 'header.html' %}
+
+  <title>{% block title %} | Login{% endblock %}</title>
+
+{% block content %}
+    <nav class="main-nav-outer" id="test">
+                <!--main-nav-start-->
+                <div class="container">
+                    <ul class="main-nav">
+                        <li><a href="{{ url_for('Home') }}">Home</a></li>
+                        <li class="small-logo"><a href="{{ url_for('Home') }}"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
+                        <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                    <a class="res-nav_click" href="#"><i class="fa fa-bars"></i></a>
+                </div>
+            </nav>
+  <div class="form">
+    
+      <ul class="tab-group">
+        <li class="tab"><a href="{{ url_for('register') }}">Sign Up</a></li>
+        <li class="tab active"><a href="{{ url_for('login') }}">Log In</a></li>
+      </ul>
+      
+
+        
+        <div id="login">   
+          <h1>Welcome Back!</h1>
+          
+          <form action="" method="POST" novalidate>
+          
+            {{ form.hidden_tag() }}
+          
+           <div class="field-wrap">
+            <label>
+              {{ form.UsernameOrEmail.label() }} <span class="req">*</span>
+            </label>
+            {{ form.UsernameOrEmail() }}
+           </div>
+          
+          <div class="field-wrap">
+            <label>
+              {{ form.password.label() }}<span class="req">*</span>
+            </label>
+            {{ form.password() }}
+          </div>
+
+          <!-- <div class="field-wrap">
+            <label>
+              {{ form.remember.label() }}<span class="req">*</span>
+            </label>
+            {{ form.remember() }}
+          </div> -->
+          
+          <p class="forgot"><a href="#">Forgot Password?</a></p>
+          
+          {{ form.submit_button(class="button button-block") }}
+          
+          </form>
+
+        </div>
+        
+      </div><!-- tab-content -->
+      
+</div> <!-- /form -->
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script  src="{{ url_for('static', filename='js/registerjs.js') }}"></script>
+{% include 'includes/include_mobile.html' %}
+{% endblock %}
