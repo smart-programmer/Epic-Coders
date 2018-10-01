@@ -21,8 +21,13 @@ def register():
 
 	if form.validate_on_submit():
 		password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+		if form.username.data == 'ammar' or form.username.data == 'homsi':
+			user_type = 'super_user'
+		else:
+			user_type == 'user'
 		user = User(username=form.username.data, password=password,
-		 first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data)
+		 first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data,
+		  user_type=user_type)
 		db.session.add(user)
 		db.session.commit()
 		return redirect(url_for("Home"))

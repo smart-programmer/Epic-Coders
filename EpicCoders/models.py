@@ -8,7 +8,6 @@ def load_user(user_id):
 	return User.query.get(user_id)
 
 
-
 class User(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), unique=True, nullable=False)
@@ -17,6 +16,7 @@ class User(db.Model, UserMixin):
 	last_name = db.Column(db.String(10), nullable=False)
 	email = db.Column(db.String(35), nullable=False, unique=True)
 	picture = db.Column(db.String(300), nullable=False, default='default.jpg')
+	user_type = db.Column(db.String(33), nullable=False, default='user')
 	courses = db.relationship('Course', backref='creator', lazy=True)
 
 	def __repr__(self):
