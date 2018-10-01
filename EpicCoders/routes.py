@@ -118,7 +118,7 @@ def course(course_id):
 			return redirect(url_for('warning_private'))
 	image_file = url_for('static', filename=f'images/courses/{course.image}')
 
-	episodes = Episode.query.all()
+	episodes = Episode.query.filter_by(course_id=courseId)
 	episode_image_file = None
 
 	does_own_course = False
