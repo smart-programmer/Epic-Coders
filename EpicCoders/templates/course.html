@@ -6,14 +6,14 @@
                 <div class="container">
                     <ul class="main-nav">
 
-							<li><a href="#contact">Contact us</a></li>
-							<li><a href="#">about the project</a></li>
+							<li><a href="{{ url_for('account') }}">My Account</a></li>
+							<li><a href="#">My Team</a></li>
 							<li><a href="{{ url_for('Home') }}">Home</a></li>
 							
-							<li class="small-logo"><a href="#header"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
-
-							<li><a href="#">about the project</a></li>
-							<li><a href="{{ url_for('login') }}">Courses</a></li>
+							<li class="small-logo"><a href="{{ url_for('Home') }}"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
+                          
+							<li><a href="#">about the course</a></li>
+							<li><a href="{{ url_for('courses') }}">Courses</a></li>
 							
                       
                     </ul>
@@ -31,7 +31,7 @@
                 <img src="{{ image_file }}" alt="">
                 <br /><br /><br /><br /><br /><br /><br /><br />
                 {% for episode in episodes %}
-                    <a href="{{ url_for('episode', course_name='course.course_name', episode_id=episode.id) }}"><h1>{{ episode.episode_name }}</h1></a><br />
+                    <a href="{{ url_for('episode', course_name=course.course_name, episode_id=episode.id) }}"><h1>{{ episode.episode_name }}</h1></a><br />
                     <img src="{{ images_file }}/{{ episode.image }}" alt="">
                     <br /><br />
                 {% endfor %}

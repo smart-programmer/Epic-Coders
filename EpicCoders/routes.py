@@ -110,6 +110,7 @@ def courses():
 
 
 @app.route('/course/<course_id>/', methods=['GET', 'POST'])
+@login_required
 def course(course_id):
 	courseId = course_id
 	course = Course.query.get(courseId)
@@ -152,6 +153,7 @@ def course(course_id):
 
 
 @app.route('/course_create', methods=['GET', 'POST'])
+@login_required
 def create_course():
 	if current_user.username != 'ammar':
 		return redirect(url_for("warning"))
@@ -176,6 +178,7 @@ def create_course():
 
 
 @app.route('/<course_name>/episode/<episode_id>')
+@login_required
 def episode(course_name, episode_id):
 	episode = Episode.query.get(episode_id)
 	image_file = url_for('static', filename=f'images/episodes/{episode.image}')

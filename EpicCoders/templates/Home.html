@@ -36,13 +36,13 @@
 				<li><a href="{{ url_for('account') }}">my account</a></li>
 				<li><a href="#team">my team</a></li>
 				{% else %}
-					<li><a href="">about the project</a></li>
+					<li><a href="#">about the project</a></li>
 					<!-- <li><a href="../ContactFrom/index.html">Contact Us</a></li> -->
 					<li><a href="{{ url_for('developers_page') }}">Developers Page</a></li>
 
 					<li class="small-logo"><a href="#header"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
 
-					<li><a href="{{ url_for('login') }}">Courses</a></li>
+					<li><a href="{{ url_for('courses') }}">Courses</a></li>
 					<li><a href="{{ url_for('login') }}">Login</a></li>
 					<li><a href="{{ url_for('register') }}">SIGN UP</a></li>
 				{% endif %}
