@@ -3,8 +3,9 @@ from flask import render_template, redirect, url_for, request, flash
 from EpicCoders.forms import RegistrationForm, LoginForm, UpdateUserForm, CreateCourse, CreateEpisode
 from EpicCoders.models import User, Course, Episode
 from flask_login import current_user, login_user, logout_user, login_required
-from EpicCoders.utils import save_image
+from EpicCoders.utils import save_image, perfect_list
 import os
+import random
 
 
 
@@ -24,7 +25,7 @@ def register():
 		if form.username.data == 'ammar' or form.username.data == 'homsi':
 			user_type = 'super_user'
 		else:
-			user_type == 'user'
+			user_type = 'user'
 		user = User(username=form.username.data, password=password,
 		 first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data,
 		  user_type=user_type)
@@ -109,9 +110,23 @@ def developers_page():
 
 @app.route('/courses')
 def courses():
-	courses = Course.query.all()
+	# instansiate empty list
+	courses_list = []
 	
-	return render_template('courses.html', courses=courses, is_courses=True)
+	# add public courses to list
+	for course in Course.query.filter_by(course_type='public'):
+		courses_list.append(course)
+
+	# add private courses that the user is subscribed to
+	for course in Course.query.filter_by(course_type='private'):
+		for subscriber in course.subscribers:
+			if subscriber == current_user:
+				courses_list.append(course)
+
+	# shuffle the list to make the page look random
+	random.shuffle(courses_list)
+	
+	return render_template('courses.html', courses=courses_list, is_courses=True)
 
 
 @app.route('/course/<course_id>/', methods=['GET', 'POST'])
@@ -154,7 +169,8 @@ def course(course_id):
 	images_file = url_for('static', filename='images/episodes')
 
 	return render_template('course.html', course=course, is_course=True, image_file=image_file, form=form
-		, episode_image_file=episode_image_file, episodes=episodes, images_file=images_file, without_background=True)
+		, episode_image_file=episode_image_file, episodes=episodes, images_file=images_file,
+		 without_background=True, users=course.subscribers)
 
 
 @app.route('/course_create', methods=['GET', 'POST'])
@@ -166,10 +182,23 @@ def create_course():
 	form = CreateCourse()
 
 	if form.validate_on_submit():
+		subscribers_list = []
+		if form.subscribers.data:
+			subscribers_list = perfect_list(form.subscribers.data)
+			
 		course_name = form.course_name.data
 		image_name = save_image(form.image.data, 'static/images/courses', 'create_course')
 		description = form.description.data
-		course = Course(course_name=course_name, creator_id=current_user.id, image=image_name, description=description)
+		course_major = form.course_major.data
+		course_type = form.course_type.data
+		course = Course(course_name=course_name, creator_id=current_user.id,
+		 image=image_name, description=description, course_major=course_major, course_type=course_type)
+
+		for subscriber in subscribers_list:
+			user = User.query.filter_by(username=subscriber).first()
+			if user:
+				course.subscribers.append(user)
+
 		db.session.add(course)
 		db.session.commit()
 		return redirect(url_for('Home'))

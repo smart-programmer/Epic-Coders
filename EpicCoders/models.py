@@ -2,6 +2,17 @@ from EpicCoders import db, login_manager
 from flask_login import UserMixin
 
 
+# the idea for making a many to many relation is simply to create a new table (model) that has a ForeignKey relation
+#with both of the tables that you want many to many reltion between them 
+#and then you can instansiate the table with the same rows many times
+
+user_course_many_to_many = db.Table("user_course_many_to_many",
+									 db.Column('user_id', db.Integer, db.ForeignKey('user.id')), 
+									 db.Column('course_id', db.Integer, db.ForeignKey('course.id'))
+									 )
+
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -29,8 +40,13 @@ class Course(db.Model):
 	course_name = db.Column(db.String(20), unique=True, nullable=False)
 	image = db.Column(db.String(20), nullable=False)
 	description = db.Column(db.String(150), nullable=False) 
+	course_major = db.Column(db.String(60), nullable=False)
+	course_type = db.Column(db.String(33), nullable=False, default='public')
 	creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	episode = db.relationship('Episode', backref='course', lazy=True)
+	subscribers = db.relationship('User', secondary=user_course_many_to_many, 
+		backref=db.backref('pages', lazy=True), lazy='subquery')
+
 
 
 class Episode(db.Model):

@@ -7,26 +7,49 @@
         
     <body>
       <form action='' method="POST" enctype="multipart/form-data">
+
         {{ form.hidden_tag() }}
         {{ form.course_name.label() }}
         {{ form.course_name() }}
         {% for error in form.course_name.errors %}
           <h1>course_name {{ error }}</h1>
         {% endfor %}
+        <br />
         {{ form.image.label() }}
         {{ form.image() }}
         {% for error in form.image.errors %}
           <h1>image {{ error }}</h1>
         {% endfor %}
+        <br />
         {{ form.description.label() }}
         {{ form.description() }}
         {% for error in form.description.errors %}
           <h1>description {{ error }}</h1>
         {% endfor %}
+        <br />
+        {{ form.course_major.label() }}
+        {{ form.course_major() }}
+        {% for error in form.course_major.errors %}
+          <h1>course_major {{ error }}</h1>
+        {% endfor %}
+        <br />
+        {{ form.course_type.label() }}
+        {{ form.course_type() }}
+        {% for error in form.course_type.errors %}
+          <h1>course_type {{ error }}</h1>
+        {% endfor %}
+        <br />
+        {{ form.subscribers.label() }}
+        {{ form.subscribers() }}
+        {% for error in form.subscribers.errors %}
+          <h1>subscribers {{ error }}</h1>
+        {% endfor %}
+        <br />
         {{ form.submit() }}
         {% for error in form.submit.errors %}
           <h1>submit {{ error }}</h1>
         {% endfor %}
+        <br />
 
       </form>
     </body>

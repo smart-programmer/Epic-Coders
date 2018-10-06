@@ -58,3 +58,34 @@ def save_video(video_file, path, view):
 		return video_filename
 
 	return None
+
+
+
+# this function takes names seperated bu commas and puts them in a list for example ammar, ahmad, khalid will be ['ammar', 'ahmad', 'khalid']
+def perfect_list(string):
+	new_list = []
+	sub_string = None
+	current_position = 0
+	till_position = 0
+	loop_count = 0
+	keep_for_last_till = till_position
+	while True:
+		till_position = string.find(',', current_position)
+		if till_position == -1:
+			if loop_count > 0:
+				sub_string = string[keep_for_last_till + 1: len(string)]
+			else:
+				sub_string = string[keep_for_last_till: len(string)]
+			sub_string = sub_string.strip()
+			new_list.append(sub_string)
+			break
+
+		sub_string = string[current_position:till_position]
+		sub_string = sub_string.strip()
+		new_list.append(sub_string)
+		current_position = till_position + 1
+		keep_for_last_till = till_position
+		loop_count += 1
+	return new_list
+
+

@@ -80,13 +80,16 @@ class UpdateUserForm(FlaskForm):
 
 
 
-
+majors = [('Computer Science', 'Computer Science'), ('Quran kareem', "Quran kareem"), ('Design', 'Design')]
 
 
 class CreateCourse(FlaskForm):
 	course_name = wtforms.StringField("Course name", validators=[Length(min=3, max=20), DataRequired()])
 	image = FileField("Course image", validators=[FileAllowed(["jpg", 'png', "gif", "jpeg"])])
 	description = wtforms.StringField('Course description', validators=[DataRequired(), Length(min=3, max=150)])
+	course_major = wtforms.SelectField('Course Major', choices=majors, default=None)
+	course_type = wtforms.SelectField('Course Type', choices=[('public', 'Public'), ('private', 'Private')])
+	subscribers = wtforms.StringField('Subscribers', validators=[Length(max=400)])
 
 	submit = wtforms.SubmitField("Create Course")
 
