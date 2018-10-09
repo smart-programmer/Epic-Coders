@@ -18,6 +18,9 @@ def Home():
 
 @app.route('/register', methods=["GET", "POST"])
 def register(): 
+	if current_user.is_authenticated:
+		redirect(url_for("Home"))
+
 	form = RegistrationForm()
 
 	if form.validate_on_submit():
@@ -134,9 +137,7 @@ def courses():
 def course(course_id):
 	courseId = course_id
 	course = Course.query.get(courseId)
-	if course.course_name == '2D Game Development':
-		if current_user.username != 'ammar' and current_user.username != 'homsi':
-			return redirect(url_for('warning_private'))
+	
 	image_file = url_for('static', filename=f'images/courses/{course.image}')
 
 	episodes = Episode.query.filter_by(course_id=courseId)
@@ -176,8 +177,8 @@ def course(course_id):
 @app.route('/course_create', methods=['GET', 'POST'])
 @login_required
 def create_course():
-	if current_user.username != 'ammar':
-		return redirect(url_for("warning"))
+	# if current_user.username != 'ammar':
+	# 	return redirect(url_for("warning"))
 
 	form = CreateCourse()
 
@@ -227,16 +228,16 @@ def episode(course_name, episode_id):
 
 
 
-@app.route('/warning')
-def warning():
-	return render_template('warning.html')
+# @app.route('/warning')
+# def warning():
+# 	return render_template('warning.html')
 
 
 
-@app.route('/private_page')
-def warning_private():
+# @app.route('/private_page')
+# def warning_private():
 
-	return render_template('private_page.html')
+# 	return render_template('private_page.html')
 
 
 

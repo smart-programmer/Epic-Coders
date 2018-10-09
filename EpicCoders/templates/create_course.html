@@ -40,7 +40,7 @@
         {% endfor %}
         <br />
         {{ form.subscribers.label() }}
-        {{ form.subscribers() }}
+        {{ form.subscribers(placeholder="ahmad, khalid, ammar") }}
         {% for error in form.subscribers.errors %}
           <h1>subscribers {{ error }}</h1>
         {% endfor %}
