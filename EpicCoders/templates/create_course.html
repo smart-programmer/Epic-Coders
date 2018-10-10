@@ -33,6 +33,12 @@
           <h1>course_major {{ error }}</h1>
         {% endfor %}
         <br />
+        {{ form.course_major_another.label() }}
+        {{ form.course_major_another(placeholder="other major") }}
+        {% for error in form.course_major_another.errors %}
+          <h1>course_major {{ error }}</h1>
+        {% endfor %}
+        <br />
         {{ form.course_type.label() }}
         {{ form.course_type() }}
         {% for error in form.course_type.errors %}

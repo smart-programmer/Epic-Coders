@@ -1,6 +1,7 @@
 from EpicCoders import app, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash
-from EpicCoders.forms import RegistrationForm, LoginForm, UpdateUserForm, CreateCourse, CreateEpisode
+from EpicCoders.forms import (RegistrationForm, LoginForm, UpdateUserForm, CreateCourse, CreateEpisode,
+ DeleteCourse, DeleteEpisode)
 from EpicCoders.models import User, Course, Episode
 from flask_login import current_user, login_user, logout_user, login_required
 from EpicCoders.utils import save_image, perfect_list
@@ -137,6 +138,9 @@ def courses():
 def course(course_id):
 	courseId = course_id
 	course = Course.query.get(courseId)
+
+	if not course:
+		return redirect(url_for('Home'))
 	
 	image_file = url_for('static', filename=f'images/courses/{course.image}')
 
@@ -151,6 +155,7 @@ def course(course_id):
 
 	if does_own_course:		
 		form = CreateEpisode()
+		delete_course_form = DeleteCourse()
 		if form.validate_on_submit():
 			episode_name = form.episode_name.data
 			text = form.text.data
@@ -167,11 +172,16 @@ def course(course_id):
 
 			return redirect(url_for("Home"))
 
+		elif delete_course_form.validate_on_submit():
+			db.session.delete(course)
+			db.session.commit()
+			return redirect(url_for('account'))
+
 	images_file = url_for('static', filename='images/episodes')
 
 	return render_template('course.html', course=course, is_course=True, image_file=image_file, form=form
 		, episode_image_file=episode_image_file, episodes=episodes, images_file=images_file,
-		 without_background=True, users=course.subscribers)
+		 without_background=True, users=course.subscribers, delete_course_form=delete_course_form)
 
 
 @app.route('/course_create', methods=['GET', 'POST'])
@@ -190,7 +200,12 @@ def create_course():
 		course_name = form.course_name.data
 		image_name = save_image(form.image.data, 'static/images/courses', 'create_course')
 		description = form.description.data
+		# because course major has two fields one is select field the other is for other majors this logic needs to be here
 		course_major = form.course_major.data
+		course_major_another = form.course_major_another.data
+		if course_major_another:
+			course_major = course_major_another
+			
 		course_type = form.course_type.data
 		course = Course(course_name=course_name, creator_id=current_user.id,
 		 image=image_name, description=description, course_major=course_major, course_type=course_type)
@@ -216,7 +231,16 @@ def create_course():
 @login_required
 def episode(course_name, episode_id):
 	episode = Episode.query.get(episode_id)
+	if not episode:
+		return redirect(url_for('Home'))
+		
 	image_file = url_for('static', filename=f'images/episodes/{episode.image}')
+
+	delete_episode_form = DeleteEpisode()
+	if delete_episode_form.validate_on_submit():
+			db.session.delete(episode)
+			db.session.commit()
+			return redirect(url_for('account'))
 	# video_file = url_for('static', filename=f'videos/episodes/{episode.video}')
 	# video_extention = os.path.splitext(episode.video)
 	# if 'mp4' in video_extention:
@@ -224,7 +248,8 @@ def episode(course_name, episode_id):
 	# elif 'wmv' in video_extention:
 	# 	video_extention = 'wmv' 
 
-	return render_template('episode.html', episode=episode, image_file=image_file, is_episode=True)
+	return render_template('episode.html', episode=episode, image_file=image_file, is_episode=True,
+	 delete_episode_form=delete_episode_form)
 
 
 

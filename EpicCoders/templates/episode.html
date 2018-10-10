@@ -36,6 +36,15 @@
 
                     {{ episode.video|safe }}
 
+                <br /><br /><br /><br /><br />
+                <form action='' method="POST">
+                    {{ delete_episode_form.hidden_tag() }}
+                    {{ delete_episode_form.submit() }}
+                     {% for error in delete_episode_form.submit.errors %}
+                        <h1>submit {{ error }}</h1>
+                    {% endfor %}
+              </form>
+
         </center>
 
 

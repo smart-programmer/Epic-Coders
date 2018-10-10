@@ -1,2 +1,2 @@
-# Epic-Coders
-Epic Coders is a web app for learning computer science in a fun way
+# Simple-Course
+Simple Course is a web app for learning computer science in a fun way

@@ -1,1 +1,1 @@
-https://epic-coders.herokuapp.com/
+https://simple-course.herokuapp.com/

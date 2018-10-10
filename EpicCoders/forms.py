@@ -88,6 +88,7 @@ class CreateCourse(FlaskForm):
 	image = FileField("Course image", validators=[FileAllowed(["jpg", 'png', "gif", "jpeg"])])
 	description = wtforms.StringField('Course description', validators=[DataRequired(), Length(min=3, max=150)])
 	course_major = wtforms.SelectField('Course Major', choices=majors, default=None)
+	course_major_another = wtforms.StringField('Other')
 	course_type = wtforms.SelectField('Course Type', choices=[('public', 'Public'), ('private', 'Private')])
 	subscribers = wtforms.StringField('Subscribers', validators=[Length(max=400)])
 
@@ -103,3 +104,12 @@ class CreateEpisode(FlaskForm):
 	description = wtforms.StringField('Description', validators=[Length(max=90)])
 
 	submit = wtforms.SubmitField("Create Episode")
+
+
+
+class DeleteCourse(FlaskForm):
+	submit = wtforms.SubmitField('Delete Course')
+
+
+class DeleteEpisode(FlaskForm):
+	submit = wtforms.SubmitField('Delete Episode')
