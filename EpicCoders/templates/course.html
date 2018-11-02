@@ -30,12 +30,25 @@
                 <br />
                 <img src="{{ image_file }}" alt="">
                 <br /><br /><br /><br /><br /><br /><br /><br />
-                {% for episode in episodes %}
-                    <a href="{{ url_for('episode', course_name=course.course_name, episode_id=episode.id) }}"><h1>{{ episode.episode_name }}</h1></a><br />
-                    <img src="{{ images_file }}/{{ episode.image }}" alt="">
-                    <br /><br />
-                {% endfor %}
+                {% if episodes %}
+                  {% for episode in episodes %}
+                      <a href="{{ url_for('episode', course_name=course.course_name, episode_id=episode.id) }}"><h1>{{ episode.episode_name }}</h1></a><br />
+                      <br /><br />
+                  {% endfor %}
+                {% else %}
+                  <h1>No episodes posted yet</h1>
+                {% endif %}
                 <br /><br />
+
+                {% if subscribe_form %}
+                <form action='' method="POST">
+                    {{ subscribe_form.hidden_tag() }}
+                    {{ subscribe_form.submit() }}
+                     {% for error in subscribe_form.submit.errors %}
+                        <h1>submit {{ error }}</h1>
+                    {% endfor %}
+              </form>
+                {% endif %}
                 {% if form %}
                 <form action='' method="POST" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
@@ -71,12 +84,15 @@
 
               </form>
               <br /><br />
-
+              <h1>Subscribers</h1>
               {% for user in users %}
-                <h1>{{ user.username }}</h1>
+                <h2>{{ user.username }}</h2>
               {% endfor %}
               {% endif %}
+
+
               <br /><br /><br /><br /><br /><br />
+              {% if delete_course_form %}
               <form action='' method="POST">
                     {{ delete_course_form.hidden_tag() }}
                     {{ delete_course_form.submit() }}
@@ -84,6 +100,7 @@
                         <h1>submit {{ error }}</h1>
                     {% endfor %}
               </form>
+              {% endif %}
         </center>
 
 

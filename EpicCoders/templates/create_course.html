@@ -39,10 +39,10 @@
           <h1>course_major {{ error }}</h1>
         {% endfor %}
         <br />
-        {{ form.course_type.label() }}
-        {{ form.course_type() }}
-        {% for error in form.course_type.errors %}
-          <h1>course_type {{ error }}</h1>
+        {{ form.course_accessibility.label() }}
+        {{ form.course_accessibility() }}
+        {% for error in form.course_accessibility.errors %}
+          <h1>course_accessibility {{ error }}</h1>
         {% endfor %}
         <br />
         {{ form.subscribers.label() }}

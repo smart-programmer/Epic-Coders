@@ -1,7 +1,7 @@
 from EpicCoders import app, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash
 from EpicCoders.forms import (RegistrationForm, LoginForm, UpdateUserForm, CreateCourse, CreateEpisode,
- DeleteCourse, DeleteEpisode)
+ Delete, Subscribe)
 from EpicCoders.models import User, Course, Episode
 from flask_login import current_user, login_user, logout_user, login_required
 from EpicCoders.utils import save_image, perfect_list
@@ -114,23 +114,24 @@ def developers_page():
 
 @app.route('/courses')
 def courses():
-	# instansiate empty list
-	courses_list = []
+	courses = Course.query.all()
 	
-	# add public courses to list
-	for course in Course.query.filter_by(course_type='public'):
-		courses_list.append(course)
+	return render_template('courses.html', courses=courses, is_courses=True)
 
-	# add private courses that the user is subscribed to
-	for course in Course.query.filter_by(course_type='private'):
-		for subscriber in course.subscribers:
-			if subscriber == current_user:
-				courses_list.append(course)
 
-	# shuffle the list to make the page look random
-	random.shuffle(courses_list)
-	
-	return render_template('courses.html', courses=courses_list, is_courses=True)
+@app.route('/my_courses/<username>/')
+def user_courses(username):
+	user_username = username
+
+	empty = True
+	courses = current_user.subscribed_to_courses
+
+	if courses:
+		empty = False
+
+	return render_template('my_courses.html',  courses=courses, empty=empty, is_courses=True)
+
+
 
 
 @app.route('/course/<course_id>/', methods=['GET', 'POST'])
@@ -144,8 +145,12 @@ def course(course_id):
 	
 	image_file = url_for('static', filename=f'images/courses/{course.image}')
 
-	episodes = Episode.query.filter_by(course_id=courseId)
+	episodes = course.episodes
+
 	episode_image_file = None
+
+	subscribe_form = None
+	delete_course_form = None
 
 	does_own_course = False
 	form = None
@@ -155,7 +160,7 @@ def course(course_id):
 
 	if does_own_course:		
 		form = CreateEpisode()
-		delete_course_form = DeleteCourse()
+		delete_course_form = Delete()
 		if form.validate_on_submit():
 			episode_name = form.episode_name.data
 			text = form.text.data
@@ -170,18 +175,37 @@ def course(course_id):
 			db.session.add(episode)
 			db.session.commit()
 
-			return redirect(url_for("Home"))
+			return redirect(url_for("account"))
 
 		elif delete_course_form.validate_on_submit():
 			db.session.delete(course)
 			db.session.commit()
 			return redirect(url_for('account'))
+	else:
+		subscribe_form = Subscribe()
+		# here i'm doing the validation twice so i can set the subscribe button to display the correct thing
+		if current_user in course.subscribers:
+			subscribe_form.submit.label.text = "Unsubscribe"
+			if subscribe_form.validate_on_submit():
+				course.subscribers.remove(current_user)
+				db.session.add(course)
+				db.session.commit()
+				return redirect(url_for('course', course_id=course.id))
+		else:
+			subscribe_form.submit.label.text = "Subscribe"
+			if subscribe_form.validate_on_submit():
+				course.subscribers.append(current_user)
+				db.session.add(course)
+				db.session.commit()
+				return redirect(url_for('course', course_id=course.id))
+
 
 	images_file = url_for('static', filename='images/episodes')
 
 	return render_template('course.html', course=course, is_course=True, image_file=image_file, form=form
 		, episode_image_file=episode_image_file, episodes=episodes, images_file=images_file,
-		 without_background=True, users=course.subscribers, delete_course_form=delete_course_form)
+		 without_background=True, users=course.subscribers, delete_course_form=delete_course_form,
+		 subscribe_form=subscribe_form)
 
 
 @app.route('/course_create', methods=['GET', 'POST'])
@@ -206,9 +230,9 @@ def create_course():
 		if course_major_another:
 			course_major = course_major_another
 			
-		course_type = form.course_type.data
+		course_accessibility = form.course_accessibility.data
 		course = Course(course_name=course_name, creator_id=current_user.id,
-		 image=image_name, description=description, course_major=course_major, course_type=course_type)
+		 image=image_name, description=description, course_major=course_major, course_accessibility=course_accessibility)
 
 		for subscriber in subscribers_list:
 			user = User.query.filter_by(username=subscriber).first()
@@ -231,25 +255,22 @@ def create_course():
 @login_required
 def episode(course_name, episode_id):
 	episode = Episode.query.get(episode_id)
+	is_owner = current_user == Course.query.get(episode.course_id).creator
+
 	if not episode:
 		return redirect(url_for('Home'))
 		
 	image_file = url_for('static', filename=f'images/episodes/{episode.image}')
 
-	delete_episode_form = DeleteEpisode()
-	if delete_episode_form.validate_on_submit():
-			db.session.delete(episode)
-			db.session.commit()
-			return redirect(url_for('account'))
-	# video_file = url_for('static', filename=f'videos/episodes/{episode.video}')
-	# video_extention = os.path.splitext(episode.video)
-	# if 'mp4' in video_extention:
-	# 	video_extention = 'mp4'
-	# elif 'wmv' in video_extention:
-	# 	video_extention = 'wmv' 
+	if is_owner:
+		delete_episode_form = Delete()
+		if delete_episode_form.validate_on_submit():
+				db.session.delete(episode)
+				db.session.commit()
+				return redirect(url_for('account'))
 
 	return render_template('episode.html', episode=episode, image_file=image_file, is_episode=True,
-	 delete_episode_form=delete_episode_form)
+	 delete_episode_form=delete_episode_form, show_delete=is_owner)
 
 
 

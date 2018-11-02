@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 import wtforms
 from wtforms.validators import DataRequired, Length, ValidationError, Email
-from EpicCoders.models import User
+from EpicCoders.models import User, Course
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 
@@ -11,17 +11,13 @@ class RegistrationForm(FlaskForm):
 
 	username = wtforms.StringField("Username", validators=[DataRequired(), Length(min=3, max=20)])
 	password = wtforms.PasswordField("Password", validators=[DataRequired(), Length(min=8)])
+	confirm_password = wtforms.PasswordField('Confirm Password', validators=[DataRequired()])
 	# confirm_password = wtforms.PasswordField("confirm Password", validators=[DataRequired()])
 	first_name = wtforms.StringField("First name", validators=[DataRequired(), Length(min=2, max=10)])
 	last_name = wtforms.StringField("Last name", validators=[DataRequired(), Length(min=2, max=10)])
 	email = wtforms.StringField("Email", validators=[DataRequired(), Length(max=35), Email()])
 
 	submit_button = wtforms.SubmitField("Sign Up")
-
-	# def validate_confirm_password(self, confirm_password):
-
-	# 	if confirm_password != self.password.data: #search how to get fields inside another field validation
-	# 		raise ValidationError("passswords don't match")
 
 
 	def validate_username(self, username):
@@ -30,6 +26,19 @@ class RegistrationForm(FlaskForm):
 
 		if user:
 			raise ValidationError("اسم المستخدم مأخوذ من قبل مستخدم آخر")
+
+
+	def validate(self):
+		if not super().validate():
+			return False
+
+		result = True
+
+		if self.password.data != self.confirm_password.data:
+			self.confirm_password.errors.append('الرقمان السريان لا يتطابقان')
+			result = False
+
+		return result
 
 
 class LoginForm(FlaskForm):
@@ -89,10 +98,12 @@ class CreateCourse(FlaskForm):
 	description = wtforms.StringField('Course description', validators=[DataRequired(), Length(min=3, max=150)])
 	course_major = wtforms.SelectField('Course Major', choices=majors, default=None)
 	course_major_another = wtforms.StringField('Other')
-	course_type = wtforms.SelectField('Course Type', choices=[('public', 'Public'), ('private', 'Private')])
+	course_accessibility = wtforms.SelectField('Course Accessibility', choices=[('public', 'Public'), ('private', 'Private')])
 	subscribers = wtforms.StringField('Subscribers', validators=[Length(max=400)])
 
 	submit = wtforms.SubmitField("Create Course")
+
+
 
 
 
@@ -107,9 +118,13 @@ class CreateEpisode(FlaskForm):
 
 
 
-class DeleteCourse(FlaskForm):
-	submit = wtforms.SubmitField('Delete Course')
+
+class Subscribe(FlaskForm):
+	submit = wtforms.SubmitField("Subscribe")
 
 
-class DeleteEpisode(FlaskForm):
-	submit = wtforms.SubmitField('Delete Episode')
+
+class Delete(FlaskForm):
+	submit = wtforms.SubmitField('Delete')
+
+

@@ -37,15 +37,15 @@ class User(db.Model, UserMixin):
 
 class Course(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	course_name = db.Column(db.String(20), unique=True, nullable=False)
+	course_name = db.Column(db.String(20), nullable=False)
 	image = db.Column(db.String(20), nullable=False)
 	description = db.Column(db.String(150), nullable=False) 
 	course_major = db.Column(db.String(60), nullable=False)
-	course_type = db.Column(db.String(33), nullable=False, default='public')
+	course_accessibility = db.Column(db.String(20), nullable=False, default='public')
 	creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	episode = db.relationship('Episode', backref='course', lazy=True)
+	episodes = db.relationship('Episode', backref='course', lazy=True)
 	subscribers = db.relationship('User', secondary=user_course_many_to_many, 
-		backref=db.backref('pages', lazy=True), lazy='subquery')
+		backref=db.backref('subscribed_to_courses', lazy=True), lazy='subquery')
 
 
 

@@ -6,8 +6,8 @@
                 <div class="container">
                     <ul class="main-nav">
 
-							<li><a href="#contact">Contact us</a></li>
-							<li><a href="#">about the project</a></li>
+							<li><a href="#contact">My Teams</a></li>
+							<li><a href="{{ url_for('user_courses', username=current_user.username) }}">my courses</a></li>
 							<li><a href="{{ url_for('Home') }}">Home</a></li>
 							
 							<li class="small-logo"><a href="{{ url_for('Home') }}"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>

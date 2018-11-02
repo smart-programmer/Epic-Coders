@@ -67,6 +67,13 @@
             </label>
             {{ form.password() }}
           </div>
+
+          <div class="field-wrap">
+            <label>
+              {{ form.confirm_password.label() }}<span class="req">*</span>
+            </label>
+            {{ form.confirm_password() }}
+          </div>
           
           {{ form.submit_button(class="button button-block") }}
           
