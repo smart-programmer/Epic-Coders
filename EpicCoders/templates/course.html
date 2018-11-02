@@ -1,6 +1,14 @@
 {% extends "header.html" %}
 
 {% block content %}
+
+<style type="text/css">
+              body {
+              background-image: url("{{ image_file }}");
+              background-color: #cccccc;
+            }
+        </style>
+
 <nav class="main-nav-outer" id="test">
                 <!--main-nav-start-->
                 <div class="container">
@@ -28,7 +36,7 @@
      
                <h1>{{ course.course_name }}</h1>
                 <br />
-                <img src="{{ image_file }}" alt="">
+                <!-- <img src="{{ image_file }}" alt=""> -->
                 <br /><br /><br /><br /><br /><br /><br /><br />
                 {% if episodes %}
                   {% for episode in episodes %}

@@ -255,10 +255,12 @@ def create_course():
 @login_required
 def episode(course_name, episode_id):
 	episode = Episode.query.get(episode_id)
-	is_owner = current_user == Course.query.get(episode.course_id).creator
-
 	if not episode:
 		return redirect(url_for('Home'))
+
+	course = Course.query.get(episode.course_id)
+	is_owner = current_user == Course.query.get(episode.course_id).creator
+
 		
 	image_file = url_for('static', filename=f'images/episodes/{episode.image}')
 
@@ -268,6 +270,10 @@ def episode(course_name, episode_id):
 				db.session.delete(episode)
 				db.session.commit()
 				return redirect(url_for('account'))
+	else:
+		# this will prevent people from typing the url for an episode and watching it without subscribing
+		if course not in current_user.courses:
+			return redirect(url_for('Home'))
 
 	return render_template('episode.html', episode=episode, image_file=image_file, is_episode=True,
 	 delete_episode_form=delete_episode_form, show_delete=is_owner)
