@@ -13,7 +13,7 @@ import random
 
 @app.route('/')
 def Home(): 
-	courses = Course.query.filter_by(course_accessibility='public').limit(4).all()
+	courses = Course.query.filter_by(course_accessibility='public')[:4]
 	return render_template("Home.html", is_Home=True, without_background=True, courses=courses)
 
 
