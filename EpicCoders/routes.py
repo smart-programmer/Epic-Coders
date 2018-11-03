@@ -1,10 +1,10 @@
 from EpicCoders import app, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash
 from EpicCoders.forms import (RegistrationForm, LoginForm, UpdateUserForm, CreateCourse, CreateEpisode,
- Delete, Subscribe)
+ Delete, Subscribe, InputField)
 from EpicCoders.models import User, Course, Episode
 from flask_login import current_user, login_user, logout_user, login_required
-from EpicCoders.utils import save_image, perfect_list
+from EpicCoders.utils import save_image, perfect_list, generate_unique_token_hex, generate_slug
 import os
 import random
 
@@ -13,8 +13,8 @@ import random
 
 @app.route('/')
 def Home(): 
-	
-	return render_template("Home.html", is_Home=True, without_background=True)
+	courses = Course.query.filter_by(course_accessibility='public').limit(4).all()
+	return render_template("Home.html", is_Home=True, without_background=True, courses=courses)
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -124,7 +124,10 @@ def user_courses(username):
 	user_username = username
 
 	empty = True
-	courses = current_user.subscribed_to_courses
+	subscribed_to_courses = current_user.subscribed_to_courses
+	courses_created = current_user.courses
+
+	courses = subscribed_to_courses + courses_created
 
 	if courses:
 		empty = False
@@ -139,6 +142,7 @@ def user_courses(username):
 def course(course_id):
 	courseId = course_id
 	course = Course.query.get(courseId)
+	course_slug = generate_slug(course.course_name)
 
 	if not course:
 		return redirect(url_for('Home'))
@@ -205,7 +209,8 @@ def course(course_id):
 	return render_template('course.html', course=course, is_course=True, image_file=image_file, form=form
 		, episode_image_file=episode_image_file, episodes=episodes, images_file=images_file,
 		 without_background=True, users=course.subscribers, delete_course_form=delete_course_form,
-		 subscribe_form=subscribe_form)
+		 subscribe_form=subscribe_form, does_own_course=does_own_course, 
+		 course_slug=course_slug)
 
 
 @app.route('/course_create', methods=['GET', 'POST'])
@@ -225,14 +230,17 @@ def create_course():
 		image_name = save_image(form.image.data, 'static/images/courses', 'create_course')
 		description = form.description.data
 		# because course major has two fields one is select field the other is for other majors this logic needs to be here
-		course_major = form.course_major.data
-		course_major_another = form.course_major_another.data
-		if course_major_another:
-			course_major = course_major_another
+		course_field = form.course_field.data
+		course_field_another = form.course_field_another.data
+		if course_field_another:
+			course_field = course_field_another
 			
 		course_accessibility = form.course_accessibility.data
+		course_unique_token = generate_unique_token_hex(Course.query.all())
+
 		course = Course(course_name=course_name, creator_id=current_user.id,
-		 image=image_name, description=description, course_major=course_major, course_accessibility=course_accessibility)
+		 image=image_name, description=description, course_field=course_field,
+		  course_accessibility=course_accessibility, course_unique_string=course_unique_token)
 
 		for subscriber in subscribers_list:
 			user = User.query.filter_by(username=subscriber).first()
@@ -277,6 +285,27 @@ def episode(course_name, episode_id):
 
 	return render_template('episode.html', episode=episode, image_file=image_file, is_episode=True,
 	 delete_episode_form=delete_episode_form, show_delete=is_owner)
+
+
+
+
+@app.route('/courses/subscribe_by_course_token', methods=['GET', 'POST'])
+def token_hex_input():
+	form = InputField()
+	form.field.label = 'token'
+
+	if form.validate_on_submit():
+		course = Course.query.filter_by(course_unique_string=form.field.data).first()
+		if course and course not in current_user.subscribed_to_courses:
+			course.subscribers.append(current_user)
+			db.session.add(course)
+			db.session.commit()
+			return redirect(url_for('user_courses', username=current_user.username))
+		else:
+			return redirect(url_for('Home'))
+
+
+	return render_template('token_hex_input.html', form=form)
 
 
 

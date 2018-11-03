@@ -1,0 +1,3 @@
+regular expressions
+fix the design (forms, and main)
+make slugs

@@ -40,8 +40,9 @@ class Course(db.Model):
 	course_name = db.Column(db.String(20), nullable=False)
 	image = db.Column(db.String(20), nullable=False)
 	description = db.Column(db.String(150), nullable=False) 
-	course_major = db.Column(db.String(60), nullable=False)
+	course_field = db.Column(db.String(60), nullable=False)
 	course_accessibility = db.Column(db.String(20), nullable=False, default='public')
+	course_unique_string = db.Column(db.String(20), nullable=False, unique=True)
 	creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	episodes = db.relationship('Episode', backref='course', lazy=True)
 	subscribers = db.relationship('User', secondary=user_course_many_to_many, 

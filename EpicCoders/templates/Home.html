@@ -4,6 +4,12 @@
 
 <!-- <body> -->
 {% block content %}
+<style type="text/css">
+		.card:hover{-webkit-box-shadow: 10px 10px 80px -2px rgba(0,0,0,0.78);
+		-moz-box-shadow: 10px 10px 80px -2px rgba(0,0,0,0.78);
+		box-shadow: 10px 10px 80px -2px rgba(0,0,0,0.78); transition: 0.5s ease-in-out 0s;}
+</style>
+
 	<header class="header" id="header">
 		<!--header-start-->
 		<div class="container">
@@ -52,13 +58,27 @@
 		</div>
 	</nav>
 	<!--main-nav-end-->
-   <main>
-   	<center>
-	{% for article in range(50) %}
-		لم ينشر اي تحدي او مقالة بعد{{ article }}<br />
-	{% endfor %}
-	</center>
-   </main>
+<main class="container p-10 ">
+    <div class="row p-3 align-items-center">
+        {% for course in courses %}
+            <div class="card col-xl-3 col-md-5 m-5  col-sm-9">
+                <img class="card-img-top Container-fluid mt-3" src="{{ url_for('static', filename='images/courses') }}/{{course.image}}" alt="Card image cap" height="200">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ course.course_name }}</h4>
+                        <h3 class="card-title">{{ course.course_field }}</h3>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        <h5 class="card-title">{{ course.course_accessibility }}</h5>
+                        <a href="{{ url_for('course', course_id=course.id) }}" class="btn btn-primary">Go to the course</a>
+                    </div>
+                </div>
+        
+        {% endfor %}
+
+	</div>
+
+	</div>
+	
+</main>
 
 
 	</div>

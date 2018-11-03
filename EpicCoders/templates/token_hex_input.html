@@ -1,0 +1,42 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+<nav class="main-nav-outer" id="test">
+                <!--main-nav-start-->
+                <div class="container">
+                    <ul class="main-nav">
+
+							<li><a href="{{ url_for('account') }}">My Account</a></li>
+							<li><a href="#">My Team</a></li>
+							<li><a href="{{ url_for('Home') }}">Home</a></li>
+							
+							<li class="small-logo"><a href="{{ url_for('Home') }}"><img src="{{ url_for('static', filename='images/homeimges/small-logo.png') }}" alt=""></a></li>
+                          
+							<li><a href="#">about the course</a></li>
+							<li><a href="{{ url_for('courses') }}">Courses</a></li>
+							
+                      
+                    </ul>
+                    <a class="res-nav_click" href="#"><i class="fa fa-bars"></i></a>
+                </div>
+            </nav>
+  
+            <br /><br />
+
+
+            <center>
+     
+                <form action='' method="POST">
+                    {{ form.hidden_tag() }}
+                    {{ form.field() }}
+                    <br />
+                    {{ form.submit() }}
+                   
+              </form>
+               
+        </center>
+
+
+{% include 'includes/include_mobile.html' %}
+{% endblock content %}

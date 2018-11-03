@@ -89,3 +89,55 @@ def perfect_list(string):
 	return new_list
 
 
+def generate_unique_token_hex(courses):
+	token = secrets.token_hex(5)
+
+	while True:
+		unique = True
+		for course in courses:
+			if token == course.course_unique_string:
+				token = secrets.token_hex(5)
+				unique = False
+		
+		if unique:
+			break
+			
+
+	return token
+
+
+
+def generate_slug(title):
+
+	title = title.replace(' ', '-')
+	title = title.replace(',', '-')
+	title = title.replace('(', '-')
+	title = title.replace(')', '-')
+	title = title.replace('?', '-qmark-')
+	title = title.replace('؟', '-qmark-')
+	title = title.replace(':', '-')
+	title = title.replace(';', '-')
+	title = title.replace('|', '-')
+	title = title.replace('~', '-')
+	title = title.replace('`', '-')
+	title = title.replace('*', '-')
+	title = title.replace('&', '-')
+	title = title.replace('^', '-')
+	title = title.replace('%', '-')
+	title = title.replace('+', '-')
+	title = title.replace('=', '-')
+	title = title.replace('$', '-')
+	title = title.replace('#', '-')
+	title = title.replace('@', '-')
+	title = title.replace('!', '-')
+	title = title.replace('<', '-')
+	title = title.replace('>', '-')
+	title = title.replace('/', '-')
+	title = title.replace('"', '-')
+	title = title.replace("'", '-')
+
+
+	
+
+	return title
+

@@ -36,7 +36,9 @@
 
                     {{ episode.video|safe }}
 
-                <br /><br /><br /><br /><br />
+                <br /><br />
+                <h3>{{ episode.text }}</h3>
+                <br /><br /><br />
                 {% if show_delete %}
                 <form action='' method="POST">
                     {{ delete_episode_form.hidden_tag() }}
