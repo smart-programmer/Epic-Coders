@@ -54,8 +54,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
-sqlite3.db
-EpicCoders/site.db/
+
 
 # Flask stuff:
 instance/
