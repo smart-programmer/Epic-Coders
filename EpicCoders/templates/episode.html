@@ -39,7 +39,7 @@
                 <br /><br />
                 <h3>{{ episode.text }}</h3>
                 <br /><br /><br />
-                {% if show_delete %}
+                {% if delete_episode_form %}
                 <form action='' method="POST">
                     {{ delete_episode_form.hidden_tag() }}
                     {{ delete_episode_form.submit() }}
