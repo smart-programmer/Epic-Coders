@@ -24,6 +24,8 @@
         {% include "includes/‏‏include_course.html" %}
         {% elif is_episode %}
         {% include "includes/‏‏‏‏include_episode.html" %}
+        {% elif is_token_hex_input %}
+        {% include "includes/‏‏‏‏include_episode.html" %}
         {% endif %}
 
         <title>Simple Course{% block title %}{% endblock %}</title>

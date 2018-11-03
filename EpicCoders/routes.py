@@ -305,7 +305,7 @@ def token_hex_input():
 			return redirect(url_for('Home'))
 
 
-	return render_template('token_hex_input.html', form=form)
+	return render_template('token_hex_input.html', form=form, is_token_hex_input=True)
 
 
 

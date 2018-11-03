@@ -15,7 +15,7 @@
                     <ul class="main-nav">
 
                             {% if current_user.is_authenticated %}
-							<li><a href="#">about the course system</a></li>
+							<li><a href="{{ url_for('token_hex_input') }}">redeem course token</a></li>
                             {% else %}
                             <li><a href="{{ url_for('login') }}">login</a></li>
                             <li><a href="{{ url_for('register') }}">sign up</a></li>
