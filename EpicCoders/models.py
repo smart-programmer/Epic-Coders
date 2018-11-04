@@ -44,7 +44,7 @@ class Course(db.Model):
 	course_accessibility = db.Column(db.String(20), nullable=False, default='public')
 	course_unique_string = db.Column(db.String(20), nullable=False, unique=True)
 	creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	episodes = db.relationship('Episode', backref='course', lazy=True)
+	episodes = db.relationship('Episode', backref='course', cascade="all,delete", lazy=True)
 	subscribers = db.relationship('User', secondary=user_course_many_to_many, 
 		backref=db.backref('subscribed_to_courses', lazy=True), lazy='subquery')
 
@@ -57,7 +57,7 @@ class Episode(db.Model):
 	video = db.Column(db.String(200), nullable=True)
 	text = db.Column(db.String(3000), nullable=True)
 	description = db.Column(db.String(90), nullable=True)
-	course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
+	course_id = db.Column(db.Integer, db.ForeignKey('course.id', ondelete='CASCADE'), nullable=False)
 
 
 

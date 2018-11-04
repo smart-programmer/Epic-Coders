@@ -259,7 +259,7 @@ def create_course():
 
 
 
-@app.route('/<course_name>/episode/<episode_id>')
+@app.route('/<course_name>/episode/<episode_id>', methods=['GET', 'POST'])
 @login_required
 def episode(course_name, episode_id):
 	episode = Episode.query.get(episode_id)
