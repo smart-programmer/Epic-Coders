@@ -56,13 +56,17 @@ def login():
 				login_user(user_using_username, remember=login_form.remember.data)
 				next_page = request.args.get("next") # next is set on login_required views
 
-			return redirect(next_page) if next_page else redirect(url_for("Home"))
+				return redirect(next_page) if next_page else redirect(url_for("Home"))
+			else:
+				return redirect(url_for('Home'))
 		elif user_using_email:
 			if bcrypt.check_password_hash(user_using_email.password, login_form.password.data):
 				login_user(user_using_email, remember=True) # login_form.remember.data
 				next_page = request.args.get("next") # next is set on login_required views
 
-			return redirect(next_page) if next_page else redirect(url_for("Home"))
+				return redirect(next_page) if next_page else redirect(url_for("Home"))
+			else:
+				return redirect(url_for('Home'))
 		else:
 			flash("فشل تسجيل الدخول يرجى التحقق من المعلومات المدخلة", 'danger')
 			redirect(url_for("Home"))
