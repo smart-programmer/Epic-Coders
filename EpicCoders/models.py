@@ -57,7 +57,7 @@ class Episode(db.Model):
 	video = db.Column(db.String(200), nullable=True)
 	text = db.Column(db.String(3000), nullable=True)
 	description = db.Column(db.String(90), nullable=True)
-	course_id = db.Column(db.Integer, db.ForeignKey('course.id', ondelete='CASCADE'), nullable=False)
+	course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
 
 
 

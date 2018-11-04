@@ -28,7 +28,7 @@
             <br /><br />
 
 
-            <center>
+       
             <main class="container p-10 ">
                     <div class="row p-3 align-items-center">
                         {% for course in courses %}
@@ -42,12 +42,15 @@
                                         <a href="{{ url_for('course', course_id=course.id) }}" class="btn btn-primary">Go to the course</a>
                                     </div>
                                 </div>
+                                </div>
                         
                         {% endfor %}
             {% if empty %}
-                <h1>You are not subscribed to any courses yet.</h1>
+            <center>
+                <h1>You don't have any courses yet.</h1>
+            </center>
             {% endif %}
-        </center>
+        
 
 
 {% include 'includes/include_mobile.html' %}

@@ -183,12 +183,12 @@ def course(course_id):
 			db.session.add(episode)
 			db.session.commit()
 
-			return redirect(url_for("account"))
+			return redirect(url_for("course", course_id=course.id))
 
 		elif delete_course_form.validate_on_submit():
 			db.session.delete(course)
 			db.session.commit()
-			return redirect(url_for('account'))
+			return redirect(url_for('user_courses', username=current_user.username))
 	else:
 		subscribe_form = Subscribe()
 		# here i'm doing the validation twice so i can set the subscribe button to display the correct thing
@@ -196,14 +196,12 @@ def course(course_id):
 			subscribe_form.submit.label.text = "Unsubscribe"
 			if subscribe_form.validate_on_submit():
 				course.subscribers.remove(current_user)
-				db.session.add(course)
 				db.session.commit()
 				return redirect(url_for('course', course_id=course.id))
 		else:
 			subscribe_form.submit.label.text = "Subscribe"
 			if subscribe_form.validate_on_submit():
 				course.subscribers.append(current_user)
-				db.session.add(course)
 				db.session.commit()
 				return redirect(url_for('course', course_id=course.id))
 
@@ -220,8 +218,6 @@ def course(course_id):
 @app.route('/course_create', methods=['GET', 'POST'])
 @login_required
 def create_course():
-	# if current_user.username != 'ammar':
-	# 	return redirect(url_for("warning"))
 
 	form = CreateCourse()
 
@@ -282,7 +278,7 @@ def episode(course_name, episode_id):
 		if delete_episode_form.validate_on_submit():
 				db.session.delete(episode)
 				db.session.commit()
-				return redirect(url_for('account'))
+				return redirect(url_for('course', course_id=course.id))
 	else:
 		# this will prevent people from typing the url for an episode and watching it without subscribing
 		if course not in current_user.subscribed_to_courses:
@@ -297,13 +293,13 @@ def episode(course_name, episode_id):
 @app.route('/courses/subscribe_by_course_token', methods=['GET', 'POST'])
 def token_hex_input():
 	form = InputField()
-	form.field.label = 'token'
+	form.field.label.text = 'Token'
+	form.submit.label.text = 'Subscribe'
 
 	if form.validate_on_submit():
 		course = Course.query.filter_by(course_unique_string=form.field.data).first()
 		if course and course not in current_user.subscribed_to_courses:
 			course.subscribers.append(current_user)
-			db.session.add(course)
 			db.session.commit()
 			return redirect(url_for('user_courses', username=current_user.username))
 		else:
