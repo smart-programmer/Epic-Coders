@@ -185,10 +185,6 @@ def course(course_id):
 
 			return redirect(url_for("course", course_id=course.id))
 
-		elif delete_course_form.validate_on_submit():
-			db.session.delete(course)
-			db.session.commit()
-			return redirect(url_for('user_courses', username=current_user.username))
 	else:
 		subscribe_form = Subscribe()
 		# here i'm doing the validation twice so i can set the subscribe button to display the correct thing
@@ -362,3 +358,11 @@ def token_hex_input():
 # 			return url_for("courses") 
 		
 # 	return render_template('episode_create.html')
+
+
+
+
+# elif delete_course_form.validate_on_submit():
+		# 	db.session.delete(course)
+		# 	db.session.commit()
+		# 	return redirect(url_for('user_courses', username=current_user.username))
