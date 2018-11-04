@@ -42,7 +42,7 @@
                 {% if delete_episode_form %}
                 <form action='' method="POST">
                     {{ delete_episode_form.hidden_tag() }}
-                    {{ delete_episode_form.name.label() }}
+                    {{ delete_episode_form.name.label(style='color: red;') }}
                     {{ delete_episode_form.name() }}
                     {{ delete_episode_form.submit() }}
                      {% for error in delete_episode_form.submit.errors %}

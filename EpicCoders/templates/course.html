@@ -49,7 +49,7 @@
                                         <a href="{{ url_for('episode', course_name=course_slug, episode_id=episode.id) }}" class="btn btn-primary">Go to the episode</a>
                                     </div>
                                 </div>
-                        
+                            
                         {% endfor %}
                 {% else %}
                   <h1>No episodes posted yet</h1>
@@ -122,7 +122,8 @@
               {% if delete_course_form %}
               <form action='' method="POST">
                     {{ delete_course_form.hidden_tag() }}
-                    {{ delete_course_form.name.label() }}
+                    <br /><br />
+                    {{ delete_course_form.name.label(style='color: red;') }}
                     {{ delete_course_form.name() }}
                     {{ delete_course_form.submit() }}
                      {% for error in delete_course_form.submit.errors %}

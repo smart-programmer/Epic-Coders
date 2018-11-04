@@ -176,6 +176,7 @@ def course(course_id):
 			description = form.description.data
 			image_name = save_image(form.picture.data, 'static/images/episodes', 'course')
 			video = form.video.data
+		
 
 			episode = Episode(episode_name=episode_name,
 				text=text,
@@ -288,6 +289,14 @@ def episode(course_name, episode_id):
 		# this will prevent people from typing the url for an episode and watching it without subscribing
 		if course not in current_user.subscribed_to_courses:
 			return redirect(url_for('Home'))
+
+	if len(episode.video) == 0:
+		episode.video = 'No video with this episode'
+	if len(episode.text) == 0:
+		episode.text = 'No text with this episode'
+	if len(episode.description) == 0:
+		episode.description = 'No description for this episode'
+
 
 	return render_template('episode.html', episode=episode, image_file=image_file, is_episode=True,
 	 delete_episode_form=delete_episode_form)

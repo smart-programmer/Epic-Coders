@@ -120,7 +120,7 @@ class CreateEpisode(FlaskForm):
 	picture = FileField("Episode image", validators=[FileAllowed(["jpg", 'png', "gif", "jpeg"])])
 	video = wtforms.StringField('أرفق مقطع يوتيوب') # string for youtube embeded videos
 	text = wtforms.StringField('text', validators=[Length(max=3000)], widget=TextArea())
-	description = wtforms.StringField('Description', validators=[Length(max=30)], widget=TextArea())
+	description = wtforms.StringField('Description', validators=[Length(max=45)], widget=TextArea())
 
 	submit = wtforms.SubmitField("Create Episode")
 
