@@ -120,7 +120,7 @@ class CreateEpisode(FlaskForm):
 	picture = FileField("Episode image", validators=[FileAllowed(["jpg", 'png', "gif", "jpeg"])])
 	video = wtforms.StringField('أرفق مقطع يوتيوب') # string for youtube embeded videos
 	text = wtforms.StringField('text', validators=[Length(max=3000)], widget=TextArea())
-	description = wtforms.StringField('Description', validators=[Length(max=45)], widget=TextArea())
+	description = wtforms.StringField('Description', validators=[Length(max=85)], widget=TextArea())
 
 	submit = wtforms.SubmitField("Create Episode")
 
@@ -128,8 +128,8 @@ class CreateEpisode(FlaskForm):
 	def validate_video(self, video):
 
 		if len(video.data) > 0: # if it has data
-			if len(video.data) > 200 or len(video.data) < 5:# validate
-				raise ValidationError('youtube iframe must be bwtween 5 to 200 characters')
+			if len(video.data) > 400 or len(video.data) < 5:# validate
+				raise ValidationError('youtube iframe must be bwtween 5 to 400 characters')
 				# i'm validating the length of the video link this way because if i use 
 				# the validator Length with the (min) attribute it makes the field required but here i'm not 
 				# making it required if it has data then validate it else leave it
