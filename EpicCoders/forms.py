@@ -128,23 +128,11 @@ class CreateEpisode(FlaskForm):
 	def validate_video(self, video):
 
 		if len(video.data) > 0: # if it has data
-			if len(video.data) > 50 or len(video.data) < 5:# validate
-				raise ValidationError('youtube iframe must be bwtween 5 to 50 characters')
+			if len(video.data) > 200 or len(video.data) < 5:# validate
+				raise ValidationError('youtube iframe must be bwtween 5 to 200 characters')
 				# i'm validating the length of the video link this way because if i use 
 				# the validator Length with the (min) attribute it makes the field required but here i'm not 
 				# making it required if it has data then validate it else leave it
-
-	# def validate_description(self, description):
-
-	# 	if len(description.data) > 0:
-	# 		if len(description.data) > 90:
-	# 			raise ValidationError('max description length is 90')
-
-	# def validate_text(self, text):
-
-	# 	if len(text.data) > 0:
-	# 		if len(text.data) > 3000:
-	# 			raise ValidationError('max text length is 3000')
 
 
 
@@ -154,7 +142,8 @@ class Subscribe(FlaskForm):
 
 
 
-class Delete(FlaskForm):
+class DeleteWithName(FlaskForm):
+	name = wtforms.StringField('Enter name to delete')
 	submit = wtforms.SubmitField('Delete')
 
 

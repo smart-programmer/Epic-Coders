@@ -1,3 +1,5 @@
 regular expressions
 fix the design (forms, and main)
 make slugs
+a model for course settings and maybe episode settings
+set a cockie for the language 

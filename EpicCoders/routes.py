@@ -1,7 +1,7 @@
 from EpicCoders import app, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash
 from EpicCoders.forms import (RegistrationForm, LoginForm, UpdateUserForm, CreateCourse, CreateEpisode,
- Delete, Subscribe, InputField)
+ DeleteWithName, Subscribe, InputField)
 from EpicCoders.models import User, Course, Episode
 from flask_login import current_user, login_user, logout_user, login_required
 from EpicCoders.utils import save_image, perfect_list, generate_unique_token_hex, generate_slug
@@ -168,7 +168,8 @@ def course(course_id):
 
 	if does_own_course:		
 		form = CreateEpisode()
-		delete_course_form = Delete()
+		delete_course_form = DeleteWithName()
+		delete_course_form.name.label.text = 'Enter course name to delete it'
 		if form.validate_on_submit():
 			episode_name = form.episode_name.data
 			text = form.text.data
@@ -184,6 +185,12 @@ def course(course_id):
 			db.session.commit()
 
 			return redirect(url_for("course", course_id=course.id))
+
+		elif delete_course_form.validate_on_submit() and delete_course_form.name.data:
+			if delete_course_form.name.data == course.course_name:
+				db.session.delete(course)
+				db.session.commit()
+				return redirect(url_for('user_courses', username=current_user.username))
 
 	else:
 		subscribe_form = Subscribe()
@@ -270,8 +277,10 @@ def episode(course_name, episode_id):
 	image_file = url_for('static', filename=f'images/episodes/{episode.image}')
 
 	if is_owner:
-		delete_episode_form = Delete()
-		if delete_episode_form.validate_on_submit():
+		delete_episode_form = DeleteWithName()
+		delete_episode_form.name.label.text = 'Enter episode name to delete it'
+		if delete_episode_form.validate_on_submit() and delete_episode_form.name.data:
+			if delete_episode_form.name.data == episode.episode_name:
 				db.session.delete(episode)
 				db.session.commit()
 				return redirect(url_for('course', course_id=course.id))
@@ -366,3 +375,10 @@ def token_hex_input():
 		# 	db.session.delete(course)
 		# 	db.session.commit()
 		# 	return redirect(url_for('user_courses', username=current_user.username))
+
+
+
+
+
+
+# deside wich form is valid depending on the data

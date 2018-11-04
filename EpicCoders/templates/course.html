@@ -105,7 +105,7 @@
                     {% endfor %}
                     <br /><br />
 
-              </form>
+                </form>
               <br /><br />
               <h1>Subscribers</h1>
               {% for user in users %}
@@ -122,6 +122,8 @@
               {% if delete_course_form %}
               <form action='' method="POST">
                     {{ delete_course_form.hidden_tag() }}
+                    {{ delete_course_form.name.label() }}
+                    {{ delete_course_form.name() }}
                     {{ delete_course_form.submit() }}
                      {% for error in delete_course_form.submit.errors %}
                         <h1>submit {{ error }}</h1>
