@@ -53,7 +53,7 @@ class Course(db.Model):
 class Episode(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	episode_name = db.Column(db.String(30), nullable=False)
-	image = db.Column(db.String(20), nullable=True)
+	image = db.Column(db.String(40), nullable=True)
 	video = db.Column(db.String(400), nullable=True)
 	text = db.Column(db.String(3000), nullable=True)
 	description = db.Column(db.String(90), nullable=True, default='No description for this episode')
