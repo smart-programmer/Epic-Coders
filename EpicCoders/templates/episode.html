@@ -40,7 +40,7 @@
                 <h3>{{ episode.text }}</h3>
                 <br /><br /><br />
                 {% if delete_episode_form %}
-                <form action='' method="POST">
+                <form action='' method="post">
                     {{ delete_episode_form.hidden_tag() }}
                     {{ delete_episode_form.name.label(style='color: red;') }}
                     {{ delete_episode_form.name() }}
@@ -48,7 +48,7 @@
                      {% for error in delete_episode_form.submit.errors %}
                         <h1>submit {{ error }}</h1>
                     {% endfor %}
-              </form>
+                </form>
               {% endif %}
 
         </center>

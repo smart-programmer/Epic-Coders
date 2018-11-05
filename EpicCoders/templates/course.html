@@ -57,7 +57,7 @@
                 <br /><br />
 
                 {% if subscribe_form %}
-                <form action='' method="POST">
+                <form action='' method="post">
                     {{ subscribe_form.hidden_tag() }}
                     {{ subscribe_form.submit() }}
                      {% for error in subscribe_form.submit.errors %}
@@ -120,7 +120,7 @@
               {% endif %}
               <br /><br /><br />
               {% if delete_course_form %}
-              <form action='' method="POST">
+              <form action='' method="post">
                     {{ delete_course_form.hidden_tag() }}
                     <br /><br />
                     {{ delete_course_form.name.label(style='color: red;') }}

@@ -170,7 +170,7 @@ def course(course_id):
 		form = CreateEpisode()
 		delete_course_form = DeleteWithName()
 		delete_course_form.name.label.text = 'Enter course name to delete it'
-		if form.validate_on_submit():
+		if form.validate_on_submit() and len(form.episode_name.data) > 0:
 			episode_name = form.episode_name.data
 			text = form.text.data
 			description = form.description.data
